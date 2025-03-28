@@ -1,21 +1,49 @@
 import requests
 from datetime import datetime, timedelta
 
-def get_temperature(lat: float, lon: float, date_input) -> tuple[float, str]:
-    if isinstance(date_input, int):
-        target_date = datetime.utcnow() - timedelta(days=date_input)
-    else:
-        target_date = date_input
+def get_temperature(lat, lon, date_input):
+    """
+    Fetches the temperature at noon for a given latitude, longitude, and date.
+    `date_input` can be either a datetime object or an integer offset (e.g., 1 = yesterday).
+    """
 
-    date_str = target_date.strftime('%Y-%m-%d')
+    # Handle offset or date input
+    if isinstance(date_input, int):
+        target_date = (datetime.utcnow() - timedelta(days=date_input)).strftime('%Y-%m-%d')
+    elif isinstance(date_input, datetime):
+        target_date = date_input.strftime('%Y-%m-%d')
+    else:
+        raise ValueError("date_input must be a datetime object or an int")
+
+    # Use Open-Meteo archive API for historical data
     url = (
-        f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}"
-        f"&hourly=temperature_2m&start_date={date_str}&end_date={date_str}&timezone=UTC"
+        "https://archive-api.open-meteo.com/v1/archive"
+        f"?latitude={lat}&longitude={lon}"
+        f"&start_date={target_date}&end_date={target_date}"
+        "&hourly=temperature_2m"
+        "&timezone=auto"
     )
 
-    response = requests.get(url)
-    data = response.json()
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
 
-    temp_c = data['hourly']['temperature_2m'][12] if 'hourly' in data else None
-    print(f"🌡️ Temperature on {date_str} at noon: {temp_c}°C")
-    return temp_c, date_str
+        # Look for temperature at 12:00
+        times = data["hourly"]["time"]
+        temps = data["hourly"]["temperature_2m"]
+
+        noon_temp = None
+        for time, temp in zip(times, temps):
+            if "12:00" in time:
+                noon_temp = temp
+                break
+
+        if noon_temp is None:
+            raise ValueError("Temperature data at noon not found.")
+
+        print(f"🌡️ Temperature on {target_date} at noon: {noon_temp}°C")
+        return noon_temp, target_date
+
+    except Exception as e:
+        raise RuntimeError(f"Failed to fetch temperature data: {e}")

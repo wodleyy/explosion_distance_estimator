@@ -1,4 +1,4 @@
-import argparse  # Add this line at the top
+import argparse
 import logging
 import os
 from datetime import datetime
@@ -91,6 +91,8 @@ def main():
     logging.info("🌍 Fetching temperature...")
     try:
         temp, weather_date = get_temperature(LAT, LON, DATE_AS_OBJECT if DATE_AS_OBJECT else DATE_OFFSET_DAYS)
+        if temp is None:
+            raise ValueError("Temperature data is missing.")
     except Exception as e:
         logging.error(f"❌ Failed to fetch temperature data: {e}")
         exit(1)
@@ -113,4 +115,4 @@ def main():
 
     logging.warning("\\n⚠️  DISCLAIMER:")
     logging.warning("This distance is an estimate based on the delay between visible and audible explosion evidence.")
-    logging.warning("In general.")
+    logging.warning("In general, real-world variance can range from 50 to 200 meters depending on recording conditions.")
