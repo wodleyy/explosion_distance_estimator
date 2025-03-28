@@ -1,0 +1,7 @@
+librosa
+matplotlib
+numpy
+opencv-python
+python-dateutil
+requests
+soundfile

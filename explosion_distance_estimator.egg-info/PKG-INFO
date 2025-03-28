@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: explosion-distance-estimator
+Version: 1.0.1
+Summary: Estimate the distance to an explosion from video and audio analysis
+Author: wodleyy
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Explosion Distance Estimator
+
+Install this package locally with:
+
+```bash
+pip install .
+```
+
+Then run:
+
+```bash
+explosion-distance-estimator --help
+```
