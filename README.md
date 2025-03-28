@@ -1,12 +1,7 @@
----
 
-## Overview
+# Explosion Distance Estimator
 
-The **Explosion Distance Estimator** is a Python tool that estimates the distance to an explosion in a video. It calculates the distance based on the delay between the visible flash and the sound of the blast, using video and audio analysis, real-world temperature data from Open-Meteo, and basic physics principles.
-
-## Installation
-
-Install this package locally with:
+Install this package with:
 
 ```bash
 pip install explosion_distance_estimator
@@ -17,6 +12,12 @@ Then run:
 ```bash
 explosion-distance-estimator --help
 ```
+
+---
+
+## Overview
+
+The **Explosion Distance Estimator** is a Python tool that estimates the distance to an explosion in a video. It calculates the distance based on the delay between the visible flash and the sound of the blast, using video and audio analysis, real-world temperature data from Open-Meteo, and basic physics principles.
 
 ### Features:
 
@@ -99,3 +100,64 @@ python3 explosion_distance_estimator.py   --temp 26.03.2025   --keep
 
 ---
 
+## Installation
+
+Install this package locally with:
+
+```bash
+pip install explosion_distance_estimator
+```
+
+Then run:
+
+```bash
+explosion-distance-estimator --help
+```
+
+---
+
+## Requirements
+
+### 🔧 FFmpeg Required
+
+This tool uses `ffmpeg` under the hood to extract audio from video files. You must have the **FFmpeg binary** installed and accessible in your system’s `PATH`.
+
+### 🛠️ How to install FFmpeg:
+
+#### macOS
+
+1. **With Homebrew** (recommended):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   brew install ffmpeg
+   ```
+
+2. **Manual download**:
+   - Download from: https://evermeet.cx/ffmpeg/
+   - Move the downloaded `ffmpeg` binary to `/usr/local/bin/`:
+     ```bash
+     sudo mv ~/Downloads/ffmpeg /usr/local/bin/
+     chmod +x /usr/local/bin/ffmpeg
+     ```
+
+#### Windows
+
+1. Download FFmpeg from: https://ffmpeg.org/download.html
+2. Extract and move the `bin/` directory to a known location (e.g., `C:\ffmpeg\bin`)
+3. Add that location to your **system PATH**:
+   - Open **Start Menu** → search “Environment Variables”
+   - Edit `PATH` and add `C:\ffmpeg\bin`
+
+#### Linux (Debian/Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install ffmpeg
+```
+
+#### Check installation
+
+After installing, confirm `ffmpeg` is available:
+```bash
+ffmpeg -version
+```
