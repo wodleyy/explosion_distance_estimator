@@ -48,7 +48,7 @@ Uses:
 ### Full CLI options
 
 ```
-python3 explosion_distance_estimator.py   --video explosion.mp4   --lat 47.0951   --lon 37.5496   --temp 1   --plot   --keep   --outdir output
+explosion_distance_estimator   --video explosion.mp4   --lat 47.0951   --lon 37.5496   --temp 1   --plot   --keep   --outdir output
 ```
 
 **Options:**
