@@ -35,7 +35,7 @@ The **Explosion Distance Estimator** is a Python tool that estimates the distanc
 ### Basic run
 
 ```
-python3 explosion_distance_estimator.py
+explosion_distance_estimator
 ```
 
 Uses:
@@ -78,10 +78,10 @@ python3 explosion_distance_estimator.py   --video explosion.mp4   --lat 47.0951 
 
 ```
 # Detect explosion from a video recorded yesterday in Mariupol
-python3 explosion_distance_estimator.py   --video mariupol_blast.mp4   --temp 1   --lat 47.0951   --lon 37.5496   --plot
+explosion_distance_estimator   --video mariupol_blast.mp4   --temp 1   --lat 47.0951   --lon 37.5496   --plot
 
 # Estimate using a historical date and keep all intermediate files
-python3 explosion_distance_estimator.py   --temp 26.03.2025   --keep
+explosion_distance_estimator   --temp 26.03.2025   --keep
 ```
 
 ---
@@ -97,22 +97,6 @@ python3 explosion_distance_estimator.py   --temp 26.03.2025   --keep
    v = 331 + 0.6 × T
    distance = (sound_time - flash_time) × v
    ```
-
----
-
-## Installation
-
-Install this package locally with:
-
-```bash
-pip install explosion_distance_estimator
-```
-
-Then run:
-
-```bash
-explosion-distance-estimator --help
-```
 
 ---
 
