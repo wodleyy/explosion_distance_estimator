@@ -1,2 +1,0 @@
-[console_scripts]
-explosion-distance-estimator = explosion_distance_estimator.explosion_distance_estimator:main
