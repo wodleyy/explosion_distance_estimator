@@ -98,7 +98,13 @@ def main():
         exit(1)
 
     logging.info("📏 Calculating distance...")
+    if temp is None:
+        logging.error("❌ Temperature value is missing. Cannot calculate distance.")
+        sys.exit(1)
+
     distance = estimate_distance(flash_time, sound_time, temp)
+
+    logging.info(f"🌡️ Temperature fetched: {temp}°C on {weather_date}")
 
     if PLOT_OUTPUT:
         logging.info("📊 Generating plots...")

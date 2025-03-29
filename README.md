@@ -145,3 +145,9 @@ After installing, confirm `ffmpeg` is available:
 ```bash
 ffmpeg -version
 ```
+
+---
+
+## Credits
+
+- The core logic for estimating the distance between flash and sound is based on an approach shared by [@Dmojavensis](https://x.com/Dmojavensis/status/1881304006406140200). Follow him, please. He has done some incredible geolocations.
