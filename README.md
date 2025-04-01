@@ -74,6 +74,19 @@ explosion_distance_estimator   --video explosion.mp4   --lat 47.0951   --lon 37.
 
 ---
 
+## 📸 Example Output
+
+### Brightness Plot
+![Brightness Plot](examples/brightness_plot.png)
+
+### Audio Spectrogram
+![Audio Spectrogram](examples/audio_spectrogram.png)
+
+### Combined Timeline
+![Combined Plot](examples/combined_plot.png)
+
+---
+
 ## Example Scenarios
 
 ```
