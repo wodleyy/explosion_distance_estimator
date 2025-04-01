@@ -74,7 +74,7 @@ explosion_distance_estimator   --video explosion.mp4   --lat 47.0951   --lon 37.
 
 ---
 
-## 📸 Example Output
+## Example Plot Output
 
 ### Brightness Plot
 ![Brightness Plot](examples/brightness_plot.png)
