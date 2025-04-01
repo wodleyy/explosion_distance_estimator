@@ -13,7 +13,25 @@ from explosion_distance_estimator.plotting import generate_plots
 from explosion_distance_estimator.log_utils import log_results, cleanup
 from explosion_distance_estimator.estimation import estimate_distance
 
+
+import pkg_resources
+import requests
+from packaging import version
+
+def check_latest_version(package_name="explosion_distance_estimator"):
+    try:
+        current = pkg_resources.get_distribution(package_name).version
+        response = requests.get(f"https://pypi.org/pypi/{package_name}/json", timeout=3)
+        latest = response.json()["info"]["version"]
+        if version.parse(current) < version.parse(latest):
+            print(f"\n⚠️  You are using version {current}, but version {latest} is available.")
+            print("   Run `pip install --upgrade explosion_distance_estimator` to update.\n")
+    except Exception:
+        pass  # fail silently if offline or PyPI unreachable
+
+
 def main():
+    check_latest_version()
     # Initialize the variables with proper defaults or from config.py
     video_path = VIDEO_PATH if VIDEO_PATH else 'default_video.mp4'
     audio_path = AUDIO_PATH if AUDIO_PATH else 'default_audio.wav'
