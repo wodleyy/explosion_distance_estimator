@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='explosion_distance_estimator',
-    version='1.0.1',
+    version='1.0.4',
     author='wodleyy',
     description='Estimate the distance to an explosion from video and audio analysis',
     long_description=open('README.md').read(),
