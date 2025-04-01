@@ -1,9 +1,14 @@
+
 import os
 import cv2
 import numpy as np
 
-def detect_flash_frame(frames_dir: str) -> tuple[int, list[float]]:
+def detect_flash_frame(frames_dir: str, max_frame: int = None) -> tuple[int, list[float]]:
     frame_files = sorted(os.listdir(frames_dir))
+
+    if max_frame:
+        frame_files = frame_files[:max_frame]
+
     brightness_values = []
 
     for filename in frame_files:

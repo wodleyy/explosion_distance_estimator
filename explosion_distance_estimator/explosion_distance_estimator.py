@@ -13,7 +13,6 @@ from explosion_distance_estimator.plotting import generate_plots
 from explosion_distance_estimator.log_utils import log_results, cleanup
 from explosion_distance_estimator.estimation import estimate_distance
 
-
 import pkg_resources
 import requests
 from packaging import version
@@ -27,14 +26,12 @@ def check_latest_version(package_name="explosion_distance_estimator"):
             print(f"\n⚠️  You are using version {current}, but version {latest} is available.")
             print("   Run `pip install --upgrade explosion_distance_estimator` to update.\n")
     except Exception:
-        pass  # fail silently if offline or PyPI unreachable
-
+        pass
 
 def main():
     check_latest_version()
-    # Initialize the variables with proper defaults or from config.py
-    video_path = VIDEO_PATH if VIDEO_PATH else 'default_video.mp4'
-    audio_path = AUDIO_PATH if AUDIO_PATH else 'default_audio.wav'
+    video_path = VIDEO_PATH or 'default_video.mp4'
+    audio_path = AUDIO_PATH or 'default_audio.wav'
 
     parser = argparse.ArgumentParser(description="Estimate explosion distance from video and audio.")
     parser.add_argument('--video', default=video_path, help='Path to the input video')
@@ -90,20 +87,27 @@ def main():
         logging.error(f"❌ Frame extraction failed: {e}")
         exit(1)
 
-    logging.info("✨ Detecting flash frame...")
-    try:
-        flash_frame, brightness_values = detect_flash_frame(FRAMES_DIR)
-        flash_time = flash_frame / fps
-    except Exception as e:
-        logging.error(f"❌ Flash detection failed: {e}")
-        exit(1)
-
     logging.info("🔊 Extracting and analyzing audio...")
     try:
         extract_audio(video_path, audio_path)
         sound_time, y, sr = detect_sound_peak(audio_path)
+        logging.info(f"🔊 Sound detected at: {sound_time:.3f}s")
     except Exception as e:
         logging.error(f"❌ Audio analysis failed: {e}")
+        exit(1)
+
+    logging.info("✨ Detecting flash frame before sound time...")
+    try:
+        max_flash_frame = int(sound_time * fps)
+        flash_frame, brightness_values = detect_flash_frame(FRAMES_DIR, max_frame=max_flash_frame)
+        flash_time = flash_frame / fps
+
+        if flash_time >= sound_time:
+            logging.error("⚠️ Flash was detected after the sound — this is physically impossible.")
+            logging.error("   Check sync or adjust detection thresholds.")
+            exit(1)
+    except Exception as e:
+        logging.error(f"❌ Flash detection failed: {e}")
         exit(1)
 
     logging.info("🌍 Fetching temperature...")
@@ -118,10 +122,9 @@ def main():
     logging.info("📏 Calculating distance...")
     if temp is None:
         logging.error("❌ Temperature value is missing. Cannot calculate distance.")
-        sys.exit(1)
+        exit(1)
 
     distance = estimate_distance(flash_time, sound_time, temp)
-
     logging.info(f"🌡️ Temperature fetched: {temp}°C on {weather_date}")
 
     if PLOT_OUTPUT:
@@ -137,6 +140,6 @@ def main():
     else:
         logging.info("📁 Keeping temporary files as requested.")
 
-    logging.warning("\\n⚠️  DISCLAIMER:")
+    logging.warning("\n⚠️  DISCLAIMER:")
     logging.warning("This distance is an estimate based on the delay between visible and audible explosion evidence.")
     logging.warning("In general, real-world variance can range from 50 to 200 meters depending on recording conditions.")
