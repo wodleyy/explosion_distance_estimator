@@ -99,7 +99,8 @@ def main():
     logging.info("✨ Detecting flash frame before sound time...")
     try:
         max_flash_frame = int(sound_time * fps)
-        flash_frame, brightness_values = detect_flash_frame(FRAMES_DIR, max_frame=max_flash_frame)
+        flash_frame, _ = detect_flash_frame(FRAMES_DIR, max_frame=max_flash_frame)
+        _, brightness_values = detect_flash_frame(FRAMES_DIR)
         flash_time = flash_frame / fps
 
         if flash_time >= sound_time:
